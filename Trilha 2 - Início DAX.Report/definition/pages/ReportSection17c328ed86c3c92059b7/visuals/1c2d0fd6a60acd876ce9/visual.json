@@ -1,0 +1,30 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "1c2d0fd6a60acd876ce9",
+  "position": {
+    "x": 26.532663316582912,
+    "y": 288.24120603015075,
+    "z": 2000,
+    "height": 267.73869346733665,
+    "width": 566.83417085427129
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

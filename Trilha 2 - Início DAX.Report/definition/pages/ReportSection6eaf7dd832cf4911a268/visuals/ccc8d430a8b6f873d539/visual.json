@@ -1,0 +1,35 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "ccc8d430a8b6f873d539",
+  "position": {
+    "x": 25.326633165829143,
+    "y": 86.834170854271349,
+    "z": 2000,
+    "height": 184.52261306532662,
+    "width": 329.2462311557789
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Faça o rateio da meta para as demais colunas da tabela dCliente e da tabela dProduto",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Trilha 2 - Início DAX"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ec7c1c0f-2466-4774-a44f-a0d3f05d9996"
+  }
+}

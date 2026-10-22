@@ -1,0 +1,130 @@
+table Sales
+	lineageTag: 22c769d5-02c1-4407-9364-97cee79a2b50
+
+	measure 'Total Vendido' =
+			
+			SUMX(fVendas,(fVendas[Preço Unitário]*fVendas[Quantidade])- fVendas[Valor Desconto])
+		formatString: #,0
+		lineageTag: 38b11877-6f10-4b3f-9375-9c86fe868559
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Total Vendido 2' = ```
+			
+			    SUM(fVendas[Valor Venda])
+			```
+		lineageTag: 41d94fa8-6e79-460e-b104-197df9973585
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Desconto' =
+			
+			SUM(fVendas[Valor Desconto])
+		formatString: #,0
+		lineageTag: f4975b66-b324-468f-a638-e5a1015682b3
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '% Desconto' =
+			
+			DIVIDE([Total Desconto],[Total Vendido] + [Total Desconto])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 079d3c2c-7e66-47b5-80de-6c172d0a0e2b
+
+	measure 'Total Custo' = ```
+			
+			SUMX(
+			    fVendas,
+			                fVendas[Custo Unitário] * fVendas[Quantidade])
+			
+			                /* This is a simple formula to calculate the Total Cost of the sales /* 
+			```
+		formatString: #,0
+		lineageTag: fee7ee14-16f8-41ba-b0e3-68e43c837d48
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Total Lucro' =
+			
+			[Total Vendido] - [Total Custo]
+		lineageTag: 664152f5-079d-41f5-bbb0-e65c93596945
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Margem de Lucro' =
+			
+			[Total Lucro] / [Total Vendido]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c5bc9322-1973-41b6-b38c-3986882f98d9
+
+	measure 'Notal Emitidas' =
+			
+			DISTINCTCOUNT(fVendas[No. Venda])
+		formatString: #,0
+		lineageTag: 580f630e-7644-424a-9890-c86b39ce2665
+
+	measure 'SKUS Vendidos' =
+			
+			DISTINCTCOUNT(fVendas[ID Produto])
+		formatString: #,0
+		lineageTag: 5b0623d7-7859-4466-9d83-ee895ac20a4e
+
+	measure 'Cobertura de Clientes' =
+			
+			DISTINCTCOUNT(fVendas[ID Cliente])
+		formatString: #,0
+		lineageTag: 59fdecef-5eb2-41a1-a6d6-067240fbb248
+
+	measure 'Linhas Vendidas' = COUNT(fVendas[No. Venda])
+		formatString: #,0
+		lineageTag: 46550c8b-6fba-400c-a2d6-0108f50d97b6
+
+	measure 'Classe Cliente Medida' =
+			
+			SWITCH(
+			    TRUE(),
+			    [Total Vendido] >= 1000000 && [% Margem de Lucro] >=0.5 , "Platinum",
+			    [Total Vendido]>=1000000&& [% Margem de Lucro] <0.5 ,"Premium",
+			    [Total Vendido] >=500000 && [% Margem de Lucro]  >=0.5 , "Gold",
+			    [Total Vendido] >=500000 && [% Margem de Lucro]  <0.5 , "Silver",
+			    [Total Vendido] <500000 ,"Bronze",
+			    [Total Vendido]=0,"New")
+		lineageTag: 77d95a26-f8ec-4b16-aec4-8c50aa214597
+
+	measure 'Tickte Medio' =
+			
+			// AVERAGEX(VALUES(fVendas[No. Venda]),[Total Vendido])
+			DIVIDE([Total Vendido],DISTINCTCOUNT(fVendas[No. Venda]))
+		lineageTag: 2a38b2d9-4b69-4c59-9e9f-eea0b02879f3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ex.8' =
+			
+			CALCULATE(
+			    [Linhas Vendidas],
+			    dCalendario[Ano] = 2017,
+			    dCalendario[Mês] IN {4,5},
+			    dCliente[Idade] > 50 || dCliente[Ocupação] = "Bachelor")
+		formatString: 0
+		lineageTag: ba3ae7a8-03e2-4f5a-a1f3-b45290ce856a
+
+	column Column1
+		dataType: string
+		isHidden
+		lineageTag: 8adfd2ab-8b6b-42ea-9177-9ad785d43c34
+		summarizeBy: none
+		sourceColumn: Column1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales = m
+		mode: import
+		source =
+				let
+				  Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t])
+				in
+				  Source
+

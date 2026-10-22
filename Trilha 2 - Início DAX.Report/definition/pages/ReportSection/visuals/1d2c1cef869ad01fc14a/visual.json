@@ -1,0 +1,357 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "1d2c1cef869ad01fc14a",
+  "position": {
+    "x": 27.23404255319149,
+    "y": 346.26139817629183,
+    "z": 1000,
+    "height": 372.66331658291455,
+    "width": 1253.0653266331658
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dProduto"
+                    }
+                  },
+                  "Property": "Marca"
+                }
+              },
+              "queryRef": "dProduto.Marca"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "Total Vendido"
+                }
+              },
+              "queryRef": "Sales.Total Vendido",
+              "nativeQueryRef": "Total Vendido"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "Total Desconto"
+                }
+              },
+              "queryRef": "Sales.Total Desconto",
+              "nativeQueryRef": "Total Desconto"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "% Desconto"
+                }
+              },
+              "queryRef": "Sales.% Desconto",
+              "nativeQueryRef": "% Desconto"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "Total Custo"
+                }
+              },
+              "queryRef": "Sales.Total Custo",
+              "nativeQueryRef": "Total Custo"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "Total Lucro"
+                }
+              },
+              "queryRef": "Sales.Total Lucro",
+              "nativeQueryRef": "Total Lucro"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "% Margem de Lucro"
+                }
+              },
+              "queryRef": "Sales.% Margem de Lucro",
+              "nativeQueryRef": "% Margem de Lucro"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "Notal Emitidas"
+                }
+              },
+              "queryRef": "Sales.Notal Emitidas",
+              "nativeQueryRef": "Notal Emitidas"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "SKUS Vendidos"
+                }
+              },
+              "queryRef": "Sales.SKUS Vendidos",
+              "nativeQueryRef": "SKUS Vendidos"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "Cobertura de Clientes"
+                }
+              },
+              "queryRef": "Sales.Cobertura de Clientes",
+              "nativeQueryRef": "Cobertura de Clientes"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "Linhas Vendidas"
+                }
+              },
+              "queryRef": "Sales.Linhas Vendidas",
+              "nativeQueryRef": "Linhas Vendidas"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "118.32523284713679D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sales.% Margem de Lucro"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "8b9fcc89b98fc87594ca",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dProduto"
+              }
+            },
+            "Property": "Marca"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "538aa37dcbe31c697933",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Total Vendido"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6aa28d62c93112e1d22b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Total Desconto"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7d681f9a256e948e5f9d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "% Desconto"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "b7412a38658907ecffb8",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Total Custo"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4bf42137486e7f7e8fce",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Total Lucro"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "498778bebbf10d69dbed",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "% Margem de Lucro"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6fe26b7090b2df316eab",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Notal Emitidas"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "da15da360ab6b4e1c1fb",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "SKUS Vendidos"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "af1020bcb09841878f81",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Cobertura de Clientes"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e777f99c2618da214573",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sales"
+              }
+            },
+            "Property": "Linhas Vendidas"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

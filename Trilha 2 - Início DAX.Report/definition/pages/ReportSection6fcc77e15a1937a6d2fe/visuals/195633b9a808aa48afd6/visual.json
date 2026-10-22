@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "195633b9a808aa48afd6",
+  "position": {
+    "x": 9.64824120603015,
+    "y": 14.472361809045225,
+    "z": 0,
+    "height": 137.48743718592965,
+    "width": 258.0904522613065
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Calcule o Ticket Médio utilizando a função AVERAGEX"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
