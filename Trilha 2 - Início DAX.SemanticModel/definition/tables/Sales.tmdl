@@ -27,7 +27,7 @@ table Sales
 
 	measure '% Desconto' =
 			
-			DIVIDE([Total Desconto],[Total Vendido] + [Total Desconto])
+			DIVIDE([Total Desconto],[Total Vendido] + [Total Desconto]) * 2
 		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: 079d3c2c-7e66-47b5-80de-6c172d0a0e2b
 
