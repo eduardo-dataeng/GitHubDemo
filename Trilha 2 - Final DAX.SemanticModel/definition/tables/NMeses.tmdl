@@ -1,0 +1,26 @@
+table NMeses
+	lineageTag: 5bf97984-6d8c-40ac-b72b-2ef20cd1e463
+
+	measure 'NMeses Valor' = SELECTEDVALUE('NMeses'[NMeses], 12)
+		formatString: 0
+		lineageTag: 469b3966-d15d-436b-b618-6a1e626721ad
+
+	column NMeses
+		formatString: 0
+		lineageTag: c489e220-a923-4edd-b3d0-823e0090c213
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition NMeses-2b12de94-bcd0-4322-9674-b0389943f921 = calculated
+		mode: import
+		source = GENERATESERIES(1, 24, 1)
+
+	annotation PBI_Id = 4f6097e6d9be4900b588572e8186c403
+

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "c09546f97f8e21f4398f",
+  "position": {
+    "x": 577.68844221105519,
+    "y": 511.35678391959794,
+    "z": 3000,
+    "height": 208.643216080402,
+    "width": 701.90954773869339
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fVendas"
+                    }
+                  },
+                  "Property": "No. Venda"
+                }
+              },
+              "queryRef": "fVendas.No. Venda"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas Gerais"
+                    }
+                  },
+                  "Property": "Total Vendido"
+                }
+              },
+              "queryRef": "Medidas Gerais.Total Vendido"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

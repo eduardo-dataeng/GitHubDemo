@@ -1,0 +1,54 @@
+table SegmentoProduto
+	lineageTag: 7b30f91b-e24c-4ae9-846c-650eface5c02
+
+	column id
+		dataType: int64
+		formatString: 0
+		lineageTag: db473141-e85b-4ceb-90e6-ec799a7cfc0e
+		summarizeBy: sum
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segmento
+		dataType: string
+		lineageTag: e03969c8-0860-4a93-881d-2208afc3fbb2
+		summarizeBy: none
+		sourceColumn: Segmento
+		sortByColumn: id
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column LimInf
+		dataType: int64
+		formatString: 0
+		lineageTag: acaa8f3e-7e10-410d-ab67-1f0333aee5d6
+		summarizeBy: sum
+		sourceColumn: LimInf
+
+		annotation SummarizationSetBy = Automatic
+
+	column LimSup
+		dataType: int64
+		formatString: 0
+		lineageTag: 942cef7c-ebcf-48b4-afd9-0da547bee67d
+		summarizeBy: sum
+		sourceColumn: LimSup
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SegmentoProduto-479264a8-cc8b-4b65-b1dc-796070c7715d = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUXLPz0kBUoYGYABkWSIDpVidaCUjoGhwZk5ZahGQYQpTB9MBUmEM5DsV5edVpQIZBghVsbEA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [id = _t, Segmento = _t, LimInf = _t, LimSup = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"id", Int64.Type}, {"Segmento", type text}, {"LimInf", Int64.Type}, {"LimSup", Int64.Type}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+

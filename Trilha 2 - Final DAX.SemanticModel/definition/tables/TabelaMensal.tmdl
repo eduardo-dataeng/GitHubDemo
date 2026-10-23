@@ -1,0 +1,38 @@
+table TabelaMensal
+	lineageTag: ee8a117c-950b-4546-beb4-7ed55bbf9631
+
+	column Ano
+		formatString: 0
+		lineageTag: c5ac3164-cd08-4614-92ed-272d3a185d08
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Ano]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mês
+		formatString: 0
+		lineageTag: b8926e42-2da8-481e-a7e7-c4264cd56e5b
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Mês]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mês Abrev.'
+		formatString: 0
+		lineageTag: b28ce5c2-21df-4cb7-be93-3862789b3dc1
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Mês Abrev.]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition TabelaMensal-8571b7ec-67e3-4edf-8b4b-4504990d29d2 = calculated
+		mode: import
+		source = Row("Ano", BLANK(), "Mês", BLANK(), "Mês Abrev.", BLANK())
+
+	annotation PBI_Id = 05ad61fc490a4185bb9c6af75afe4055
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

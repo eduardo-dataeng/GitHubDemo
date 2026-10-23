@@ -1,0 +1,36 @@
+table SelecaoDestaque
+	lineageTag: b10b8299-96fc-4b70-b74e-cd12fba475ef
+
+	column id
+		dataType: int64
+		formatString: 0
+		lineageTag: 6016a5e6-0b05-4941-a29b-bf1f9fef9ec3
+		summarizeBy: sum
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Seleção
+		dataType: string
+		lineageTag: 01f54c9c-2a13-4c3f-b21c-1dd718f75055
+		summarizeBy: none
+		sourceColumn: Seleção
+		sortByColumn: id
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	partition SelecaoDestaque-d8aec552-16df-41e7-bb2d-36940bc9e0d2 = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUfI9vDYvMzdfIVXB9/DCCiBLKVYnWskIKBNQlJmbmlkEkjo8K6cEJmUMlHJMzsxNVEhJBOpZmZKZqBQbCwA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [id = _t, Seleção = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"id", Int64.Type}, {"Seleção", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+

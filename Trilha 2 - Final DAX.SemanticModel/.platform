@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Trilha 2 - Final DAX"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "405358ee-16a4-43ee-95e4-34dc6daaabeb"
+  }
+}

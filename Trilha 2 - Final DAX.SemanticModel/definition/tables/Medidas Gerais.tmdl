@@ -1,0 +1,510 @@
+table 'Medidas Gerais'
+	lineageTag: c0cc9c75-fbdb-41bf-87f5-2fa3b3b45cb5
+
+	measure 'Total Vendido' = ```
+			
+			// SUMX(
+			//     fVendas, 
+			//     fVendas[Preço Unitário] * fVendas[Quantidade] - fVendas[Valor Desconto]
+			// )
+			SUM(fVendas[Valor Venda])
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: ca4ad349-2ea7-4798-831a-8c43bd769df2
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Desconto' = SUM(fVendas[Valor Desconto])
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: ab421cc6-3880-43f6-8186-084c00218f3e
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% Desconto' =
+			
+			DIVIDE(
+			    [Total Desconto],
+			    SUMX(fVendas, fVendas[Preço Unitário] * fVendas[Quantidade])
+			    //[Total Vendido] + [Total Desconto]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d6a4c8e5-12ed-418e-82e4-9965897dd1fe
+
+		changedProperty = FormatString
+
+	measure 'Total Custo' = SUM(fVendas[Custo Venda])
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: c32e1b85-26c8-474d-9b0b-5623ac532572
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Lucro' = [Total Vendido] - [Total Custo]
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 71d5f30f-cd74-469e-9a0b-0f5886ac7b32
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% Margem' = DIVIDE([Total Lucro], [Total Vendido])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 47fade8e-220c-4547-8b0b-3eee6bf57e72
+
+		changedProperty = FormatString
+
+	measure 'Notas Emitidas' = DISTINCTCOUNT(fVendas[No. Venda])
+		formatString: #,0
+		lineageTag: 6505cc0a-3c87-4199-a326-1f466f163507
+
+		changedProperty = FormatString
+
+	measure 'SKUs Vendidos' = DISTINCTCOUNT(fVendas[ID Produto])
+		formatString: 0
+		lineageTag: b08c0b9e-2e02-4f5e-b218-b6d5a127dda2
+
+	measure 'Cobertura Clientes' = DISTINCTCOUNT(fVendas[ID Cliente])
+		formatString: #,0
+		lineageTag: fa0d3b57-a9aa-4804-8127-2f1afdb32b25
+
+		changedProperty = FormatString
+
+	measure 'Qtd Linhas Vendas' = COUNTROWS(fVendas)
+		formatString: #,0
+		lineageTag: 8cd1e77b-59dd-4faa-a27c-96834a6da4fc
+
+		changedProperty = FormatString
+
+	measure 'Segmento Produto Medida' = ```
+			IF( [Total Vendido] > 1000000, "Gold", "Silver" ) 
+			```
+		lineageTag: cf111801-e712-4a90-b7e9-60d6b17df983
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'Classe Cliente Medida' =
+			
+			SWITCH(
+			    TRUE(),
+			    [Total Vendido] >= 1000000 && [% Margem] >= 0.5, "Platinum",
+			    [Total Vendido] >= 1000000 && [% Margem] < 0.5, "Premium",
+			    [Total Vendido] >= 500000 && [% Margem] >= 0.5, "Gold",
+			    [Total Vendido] >= 500000 && [% Margem] < 0.5, "Silver",
+			    [Total Vendido] > 0, "Bronze",
+			    [Total Vendido] = 0, "New",
+			    "ERRO DE CONFIGURAÇÃO"
+			)
+		lineageTag: 2ba3c407-f350-4769-9549-ba143c3aae84
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'Carteira Clientes' = COUNTROWS(dCliente)
+		formatString: #,0
+		lineageTag: 1cb33d45-5652-4237-abbf-d5f324666fec
+
+		changedProperty = FormatString
+
+	measure 'KPI Emoji Produto' = IF( [Total Vendido] > 1000000, "🏆", "🥈" )
+		lineageTag: e5708fc8-62d4-48a2-9171-563d360faf29
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'KPI Gif Produto' = ```
+			
+			IF( 
+			    [Total Vendido] > 1000000,
+			    "https://media.giphy.com/media/wb6xgCSpLl0m4/giphy.gif", 
+			    "https://media.giphy.com/media/L1QMTl9ggmYGoCu7oj/giphy.gif" 
+			)
+			```
+		lineageTag: 4152a52b-4f6d-4b05-87ba-4c31563c504b
+		dataCategory: ImageUrl
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'Média Valor Venda' = ```
+			
+			AVERAGEX(
+			    fVendas, 
+			    fVendas[Preço Unitário] * fVendas[Quantidade] - fVendas[Valor Desconto]
+			)
+			//AVERAGE(fVendas[Valor Venda])
+			```
+		lineageTag: 96f7f86b-f4ca-4a44-b3b2-fc7cb3035704
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Média Mensal' =
+			
+			AVERAGEX(
+			    VALUES(dCalendario[Mês/Ano]),
+			    [Total Vendido]
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 7b05670a-4f04-4855-bcd9-e886df3848bb
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Ticket Médio v1' = DIVIDE([Total Vendido], [Notas Emitidas])
+		lineageTag: 728a9090-6581-430d-a703-e8106dab716b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ticket Médio v2' =
+			
+			AVERAGEX(
+			    VALUES(fVendas[No. Venda]),
+			    [Total Vendido]
+			)
+		lineageTag: e5cff57f-4027-42f0-85bc-aae14b2b26da
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Qtd 2018' =
+			
+			CALCULATE(
+			    [Qtd Linhas Vendas],
+			    dCalendario[Ano] = 2018
+			)
+		formatString: 0
+		lineageTag: fee29ddb-5225-4c79-845d-5e47637aabca
+
+	measure 'Qtd Arizona' =
+			
+			CALCULATE(
+			    [Qtd Linhas Vendas],
+			    dCalendario[Ano] IN {2017, 2018},
+			    dCliente[Estado] IN {"Arizona", "Alberta"}
+			)
+		formatString: 0
+		lineageTag: a29a2575-14e3-4c54-b550-201dc31a7b43
+
+	measure 'Qtd Exercicio' =
+			
+			CALCULATE(
+			    [Qtd Linhas Vendas],
+			    dCalendario[Ano] = 2017,
+			    dCalendario[Mês] IN {4,5},
+			    dCliente[Idade] > 50 || dCliente[Ocupação] = "Bachelor"
+			)
+		formatString: 0
+		lineageTag: 217047a9-913b-4bb9-a4ca-5c2d0e540768
+
+	measure 'Qtd Contoso' =
+			
+			CALCULATE(
+			    [Qtd Linhas Vendas],
+			    dProduto[Marca] = "Contoso"
+			)
+		formatString: #,0
+		lineageTag: d3c4b408-b38f-450a-8390-c6f358f45ef1
+
+		changedProperty = FormatString
+
+	measure '% Contoso' = DIVIDE([Qtd Contoso], [Qtd Linhas Vendas])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ad330d1c-7ff2-45db-946a-502b7dcc0605
+
+		changedProperty = FormatString
+
+	measure 'Qtd Contoso KEEPFILTERS' =
+			
+			CALCULATE(
+			    [Qtd Linhas Vendas],
+			    KEEPFILTERS( dProduto[Marca] = "Contoso" )
+			)
+		formatString: #,0
+		lineageTag: 624fed41-f001-4b8a-89a7-81bf221f0587
+
+		changedProperty = FormatString
+
+	measure 'Total Meta' =
+			
+			VAR vTotalFixo =
+			CALCULATE(
+			    [Total Vendido],
+			    ALL(dCliente), VALUES(dCliente[Continente]),
+			    ALL(dProduto), VALUES(dProduto[Categoria])
+			)
+			VAR vFatorRateio = DIVIDE([Total Vendido], vTotalFixo)
+			VAR vMetaDiluida = SUM(fMetas[ValorMeta]) * vFatorRateio
+			RETURN
+			vMetaDiluida
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: decc8430-3857-48c8-8441-cb7371211574
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Meta Diária' = ```
+			
+			VAR vQtdDiasUteis = CALCULATE(COUNTROWS(dCalendario), dCalendario[Dia Útil] = "Sim")
+			VAR vQtdDiasUteisAno = 
+			CALCULATE(
+			    COUNTROWS(dCalendario),
+			    dCalendario[Dia Útil] = "Sim",
+			    ALL(dCalendario),
+			    VALUES(dCalendario[Ano])
+			)
+			VAR vFator = DIVIDE(vQtdDiasUteis, vQtdDiasUteisAno)
+			VAR vMetaFixa = 
+			CALCULATE(
+			    [Total Meta],
+			    ALL(dCalendario),
+			    VALUES(dCalendario[Ano])
+			)
+			VAR vMetaDiluida = vMetaFixa * vFator
+			RETURN
+			vMetaDiluida
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 2ee7e2e3-aeec-4e49-806a-c69d8361122a
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Meses Bons' =
+			
+			CALCULATE(
+			    [Total Vendido],
+			    FILTER(
+			        VALUES(dCalendario[AnoMes]),
+			        [Total Vendido] > 7000000
+			    )
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: a1244ad7-b2c0-42f8-bdab-2dc8857fe442
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Clientes Grandes' =
+			
+			CALCULATE(
+			    [Cobertura Clientes],
+			    FILTER(
+			        dCliente,
+			        [Total Vendido] > 100000
+			    )
+			)
+		formatString: 0
+		lineageTag: 76d3392f-8ca1-4e23-b841-c6ff08aa6399
+
+	measure 'SKUs Vendidos Segm.' =
+			
+			CALCULATE(
+			    [SKUs Vendidos],
+			    FILTER(
+			        dProduto,
+			        [Total Vendido] >= MIN(SegmentoProduto[LimInf]) &&
+			        [Total Vendido] < MAX(SegmentoProduto[LimSup])
+			    )
+			)
+		formatString: 0
+		lineageTag: d377f9a6-a4e8-48f9-a830-583857d7ca80
+
+	measure 'Total Vendido Segm.' =
+			
+			SUMX(
+			    SegmentoProduto, //Iterativo que vai avaliar segmento por segmento
+			    CALCULATE(
+			        [Total Vendido],
+			        FILTER(
+			            dProduto,
+			            [Total Vendido] >= SegmentoProduto[LimInf] &&
+			            [Total Vendido] < SegmentoProduto[LimSup]
+			        )
+			    )
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 87308e4a-76ca-4eb7-8376-661f90e450a3
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Vendido Segm. Ajust.' =
+			
+			SUMX(
+			    VALUES(dCalendario[Ano]),
+			    [Total Vendido Segm.]
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 4dc9eb3d-e066-4d02-b9b4-3c698d4eb0f8
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Rank Produto' =
+			
+			IF(
+			    ISINSCOPE(dProduto[Produto]),
+			    RANKX(ALL(dProduto[Produto]), [Total Vendido])
+			)
+		formatString: 0
+		lineageTag: d4365c04-78a5-48db-8544-353f6d47d1a1
+
+	measure 'Top N v1' = IF( [Rank Produto] <= [TOPN Valor], [Total Vendido] )
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: ce557621-b954-4f94-a0e1-b519575c343a
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Top N v2' = ```
+			
+			VAR vTopN = 
+			FILTER(
+			    VALUES(dProduto[Produto]),
+			    [Rank Produto] <= [TOPN Valor]
+			)
+			RETURN
+			CALCULATE(
+			    [Total Vendido],
+			    vTopN
+			)
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 65bf10bb-0fc0-4f6e-bac2-1f8e4536f690
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Top N v3' = ```
+			
+			VAR vTopN = 
+			TOPN(
+			    [TOPN Valor],
+			    ALL(dProduto[Produto]),
+			    [Total Vendido]
+			)
+			RETURN
+			CALCULATE(
+			    [Total Vendido],
+			    KEEPFILTERS(vTopN)
+			)
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 68dc350f-bf0a-4453-91f1-3b5a4730fb83
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% TopN' =
+			
+			VAR vTotalFixo = CALCULATE([Total Vendido], ALL(dProduto[Produto]))
+			VAR vTotalFixoTopN = CALCULATE([Total Vendido], TOPN([TOPN Valor], ALL(dProduto[Produto]), [Total Vendido]))
+			RETURN
+			IF(
+			    ISINSCOPE(dProduto[Produto]),
+			    DIVIDE( [Top N v3], vTotalFixoTopN ),
+			    DIVIDE( vTotalFixoTopN, vTotalFixo )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9845d0d5-3a56-4bce-83af-97281fbcbb19
+
+		changedProperty = FormatString
+
+	measure 'Total Vendido TopN' =
+			
+			CALCULATE(
+			    [Total Vendido],
+			    FILTER(
+			        VALUES(dProduto[Produto]),
+			        [Rank Produto] >= MIN('TopN'[LimInf]) &&
+			        [Rank Produto] <= MAX('TopN'[LimSup])
+			    )
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 2ed859b5-32ca-455a-8229-43073e9590b5
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Rank Duplo Cat. Marca' =
+			
+			RANKX(
+			    ALL(dProduto[Categoria], dProduto[Marca]),
+			    [SKUs Vendidos]
+			)
+		formatString: 0
+		lineageTag: fe93a854-60ba-4ddd-ae3c-b9defca27418
+
+	measure 'Rank Duplo Cat. Cont.' =
+			
+			RANKX(
+			    CROSSJOIN(
+			        ALL(dProduto[Categoria]),
+			        ALL(dCliente[Continente])
+			    ),
+			    [SKUs Vendidos]*100000000 + [Total Vendido]/1000 ,,,Dense
+			)
+		formatString: 0
+		lineageTag: 6a61eed8-0a8b-4cd3-8c14-d8c70f50a1b9
+
+	measure 'Notas Enviadas' =
+			
+			CALCULATE(
+			    [Notas Emitidas],
+			    NOT(ISBLANK(fVendas[Data Envio])),
+			    USERELATIONSHIP(fVendas[Data Envio], dCalendario[Data])
+			)
+		formatString: #,0
+		lineageTag: 768e81da-9720-413e-ac5c-d63497ad06f9
+
+		changedProperty = FormatString
+
+	measure 'Notas em Aberto' = ```
+			
+			CALCULATE(
+			    [Notas Emitidas] - [Notas Enviadas],
+			    FILTER(
+			        ALL(dCalendario),
+			        dCalendario[Data] <= MAX(dCalendario[Data]) 
+			    )
+			)
+			```
+		formatString: #,0
+		lineageTag: 0e1e8166-831f-4ff3-a1a6-5e2fa3f86a59
+
+		changedProperty = FormatString
+
+	column 'Coluna 1'
+		dataType: string
+		isHidden
+		lineageTag: 598c5876-37c8-4e69-abe9-3fe42cd812fe
+		summarizeBy: none
+		sourceColumn: Coluna 1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	partition 'Medidas Gerais-74b322a7-cf50-43fc-9c20-9f9dd0c14e6a' = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Coluna 1" = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Coluna 1", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+

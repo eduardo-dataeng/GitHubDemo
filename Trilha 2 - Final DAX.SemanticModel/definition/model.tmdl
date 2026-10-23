@@ -1,0 +1,42 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup Fatos
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup Dimensões
+
+	annotation PBI_QueryGroupOrder = 1
+
+annotation PBI_QueryOrder = ["fVendas","fMetas","dProduto","dCliente","BaseDados","fMeta 2017","fMetas 2018 e 2019","dFeriado","dSubcategoria","dLocalizacao","fxFeriados","dCalendario","dSupervisor","CaminhoPasta","Continente","Cliente-Sup","Medidas Gerais","Medidas Tempo","SelecaoDestaque","SegmentoProduto","TopN"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table fVendas
+ref table fMetas
+ref table dProduto
+ref table dCliente
+ref table dCalendario
+ref table Continente
+ref table dSupervisor
+ref table Cliente-Sup
+ref table 'Medidas Gerais'
+ref table 'Medidas Tempo'
+ref table TabelaMensal
+ref table Parâmetro
+ref table NMeses
+ref table SelecaoDestaque
+ref table SegmentoProduto
+ref table TopN
+
+ref cultureInfo pt-BR
+

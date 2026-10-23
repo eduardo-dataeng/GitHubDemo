@@ -1,0 +1,424 @@
+table 'Medidas Tempo'
+	lineageTag: be692180-e264-4484-8544-8343169a9f0d
+
+	measure 'Total Vendido LY' =
+			
+			CALCULATE(
+			    [Total Vendido],
+			    CALCULATETABLE(
+			        SAMEPERIODLASTYEAR(dCalendario[Data]),
+			        dCalendario[PossuiDados] = TRUE()
+			    )
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 1116cd37-a0b6-4ea0-a900-eefced58c66a
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Vendido PY' =
+			
+			CALCULATE(
+			    [Total Vendido],
+			    PREVIOUSYEAR(dCalendario[Data])
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 4c3308d2-3616-4a40-b17a-59f540c43d70
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% YoY' =
+			
+			VAR vLY = [Total Vendido LY]
+			VAR vVariacao = [Total Vendido] - vLY
+			VAR vPercent = DIVIDE(vVariacao, vLY)
+			RETURN
+			vPercent
+		formatString: 0%;-0%;0%
+		lineageTag: 247f8edb-9178-468e-ad5b-427e9bd2f264
+
+		changedProperty = FormatString
+
+	measure 'Total Vendido LM' =
+			
+			CALCULATE(
+			    [Total Vendido],
+			    DATEADD(dCalendario[Data], -1, MONTH)
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 75290397-85ff-4d69-9490-b2d726a3e772
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Vendido PM' =
+			
+			CALCULATE(
+			    [Total Vendido],
+			    PREVIOUSMONTH(dCalendario[Data])
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 428aad88-f231-4a1b-b5e4-4b946d5115c8
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% MoM' =
+			
+			VAR vLM = [Total Vendido LM]
+			VAR vVar = [Total Vendido] - vLM
+			VAR vPerc = DIVIDE(vVar, vLM)
+			RETURN
+			vPerc
+		formatString: 0%;-0%;0%
+		lineageTag: b42ab60a-1b4e-414a-b9ca-fe3392def052
+
+		changedProperty = FormatString
+
+	measure 'Total Vendido YTD' =
+			
+			CALCULATE(
+			    [Total Vendido],
+			    CALCULATETABLE(
+			        DATESYTD(dCalendario[Data]),
+			        dCalendario[PossuiDados] = TRUE()
+			    )
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: f11a75b8-b0ee-43f6-a9d8-135c0e8b5cd1
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Vendido LYTD' =
+			
+			CALCULATE(
+			    [Total Vendido],
+			    DATESYTD(SAMEPERIODLASTYEAR(dCalendario[Data]))
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 4a4eb8c2-3b17-4a98-a823-5e07f754b1a6
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Vendido PY raiz' =
+			
+			VAR vAnoContexto = SELECTEDVALUE(dCalendario[Ano])
+			RETURN
+			CALCULATE(
+			    [Total Vendido],
+			    ALL(dCalendario),
+			    dCalendario[Ano] = vAnoContexto - 1
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 4db19bc5-cb43-4839-b3df-338bc5098d8f
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Vendido LY raiz' =
+			
+			VAR vAnoContexto = MAX(dCalendario[Ano])
+			VAR vUltimaDataFato = CALCULATE( MAX(fVendas[Data Venda]), ALL(fVendas) )
+			VAR vUltimaDataAnoAnterior = EDATE(vUltimaDataFato, -12)
+			VAR vResultado =
+			CALCULATE(
+			    [Total Vendido],
+			    dCalendario[Ano] = vAnoContexto - 1,
+			    KEEPFILTERS( dCalendario[Data] <= vUltimaDataAnoAnterior )
+			)
+			RETURN
+			vResultado
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: c030958b-9417-4ffa-88d4-25ab04fe0246
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Vendido LY raiz v2' =
+			
+			VAR vAnoContexto = MAX(dCalendario[Ano])
+			VAR vUltimaDataFato = CALCULATE( MAX(fVendas[Data Venda]), ALL(fVendas) )
+			VAR vUltimaDataAnoAnterior = EDATE(vUltimaDataFato, -12)
+			VAR vResultado =
+			CALCULATE(
+			    [Total Vendido],
+			    FILTER(
+			        ALL(dCalendario),
+			        dCalendario[Ano] = vAnoContexto - 1 &&
+			        dCalendario[Data] <= vUltimaDataAnoAnterior
+			    ),
+			    VALUES(dCalendario[Mês])
+			)
+			RETURN
+			vResultado
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 7ca57a8e-261b-4c92-aae9-c8a5c6e2171b
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Vendido LM raiz' = ```
+			
+			VAR vMes = MAX(dCalendario[Contador MesAno])
+			VAR vLM = 
+			CALCULATE(
+			    [Total Vendido],
+			    ALL(dCalendario[Nome do Mês], dCalendario[Mês], dCalendario[Ano]),
+			    dCalendario[Contador MesAno] = vMes - 1
+			)
+			RETURN
+			vLM
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 3f168fe3-11a6-43dc-a616-b0a8a56a308b
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Vendido RT' = ```
+			
+			VAR vRT = 
+			CALCULATE(
+			    [Total Vendido],
+			    CALCULATETABLE(
+			        FILTER(
+			            ALLSELECTED(dCalendario),
+			            dCalendario[Data] <= MAX(dCalendario[Data])
+			        ),
+			        dCalendario[PossuiDados] = TRUE()
+			    )
+			)
+			RETURN
+			vRT
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 43e59f31-9404-4345-b62e-4eb2b97610f0
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Vendido YTD raiz' = ```
+			
+			VAR vYTD = 
+			CALCULATE(
+			    [Total Vendido],
+			    CALCULATETABLE(
+			        FILTER(
+			            ALL(dCalendario),
+			            dCalendario[Data] <= MAX(dCalendario[Data])
+			        ),
+			        dCalendario[PossuiDados] = TRUE()
+			    ),
+			    VALUES(dCalendario[Ano])
+			)
+			RETURN
+			vYTD
+			```
+		lineageTag: 18e03315-9437-4ae8-9123-9a148057c7bc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Vendido Móvel 12M (MAT)' = ```
+			
+			VAR vDataContexto = MAX(dCalendario[Data])
+			VAR vTotalMovel = 
+			CALCULATE(
+			    [Total Vendido],
+			    DATESINPERIOD(
+			        dCalendario[Data],
+			        vDataContexto,
+			        -12,
+			        MONTH
+			    )
+			)
+			RETURN
+			vTotalMovel
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: c5f91073-96c0-4bad-8c34-1d77515a4aaf
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Média Móvel Mensal 3M' = ```
+			
+			VAR vDataContexto = MAX(dCalendario[Data])
+			VAR vTotalMovel = 
+			CALCULATE(
+			    [Total Vendido] / DISTINCTCOUNT(dCalendario[AnoMes]),
+			    DATESINPERIOD(
+			        dCalendario[Data],
+			        vDataContexto,
+			        -3,
+			        MONTH
+			    )
+			)
+			RETURN
+			vTotalMovel
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: de2d0d10-d1ef-414e-aaa3-f864fd7fcdea
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Média Móvel Diária' = ```
+			
+			VAR vDataContexto = MAX(dCalendario[Data])
+			VAR vTotalMovel = 
+			CALCULATE(
+			    [Total Vendido] / DISTINCTCOUNT(dCalendario[Data]),
+			    DATESINPERIOD(
+			        dCalendario[Data],
+			        vDataContexto,
+			        -[NMeses Valor],
+			        MONTH
+			    )
+			)
+			RETURN
+			vTotalMovel
+			```
+		lineageTag: 4b63dc98-3311-4d0c-aa37-4354b870a64e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Destacar Maior e Menor Valor' =
+			
+			VAR vMaiorValorMensal =
+			MAXX( ALLSELECTED(dCalendario[Ano], dCalendario[Mês Abrev.], dCalendario[Mês]), [Total Vendido] )
+			VAR vMaiorValorDiario =
+			MAXX( ALLSELECTED(dCalendario), [Total Vendido] )
+			VAR vMenorValorMensal =
+			MINX( ALLSELECTED(dCalendario[Ano], dCalendario[Mês Abrev.], dCalendario[Mês]), [Total Vendido] )
+			VAR vMenorValorDiario =
+			MINX( ALLSELECTED(dCalendario), [Total Vendido] )
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    ISINSCOPE(dCalendario[Dia]) && [Total Vendido] = vMaiorValorDiario, "cyan",
+			    NOT(ISINSCOPE(dCalendario[Dia])) && [Total Vendido] = vMaiorValorMensal, "cyan",
+			    ISINSCOPE(dCalendario[Dia]) && [Total Vendido] = vMenorValorDiario, "red",
+			    NOT(ISINSCOPE(dCalendario[Dia])) && [Total Vendido] = vMenorValorMensal, "red"
+			)
+		lineageTag: 951bda2a-ab78-4617-abce-d8e54d0b8883
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'Destacar Primeiro e Último Mes v1' = ```
+			
+			VAR vPrimeiroMes = CALCULATE( MIN(dCalendario[Contador MesAno]), ALLSELECTED(dCalendario) )
+			VAR vUltimoMes = 
+			CALCULATE( 
+			    MAX(dCalendario[Contador MesAno]), 
+			    FILTER(
+			        ALLSELECTED(dCalendario),
+			        NOT(ISBLANK([Total Vendido]))
+			    )
+			)
+			VAR vTotalPrimeiroMes = CALCULATE([Total Vendido], dCalendario[Contador MesAno] = vPrimeiroMes)
+			VAR vTotalUltimoMes = CALCULATE([Total Vendido], dCalendario[Contador MesAno] = vUltimoMes)
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    MAX(dCalendario[Contador MesAno]) = vPrimeiroMes, vTotalPrimeiroMes,
+			    MAX(dCalendario[Contador MesAno]) = vUltimoMes, vTotalUltimoMes
+			)
+			```
+		formatString: 0
+		lineageTag: 90f882a3-f0b2-4f19-a66a-40c3bb67c8da
+
+	measure 'Destacar Primeiro e Último Mes v2' = ```
+			
+			VAR vPrimeiroMes = CALCULATE( MIN(dCalendario[Contador MesAno]), ALLSELECTED(dCalendario) )
+			VAR vUltimoMes = 
+			CALCULATE( 
+			    MAX(dCalendario[Contador MesAno]), 
+			    FILTER(
+			        ALLSELECTED(dCalendario),
+			        NOT(ISBLANK([Total Vendido]))
+			    )
+			)
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    MAX(dCalendario[Contador MesAno]) = vPrimeiroMes, "red",
+			    MAX(dCalendario[Contador MesAno]) = vUltimoMes, "blue"
+			)
+			```
+		lineageTag: e762d5fa-f5b6-408a-a397-44a7edcf7ac6
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'Destacar Valores Acima da Média' =
+			
+			VAR vMediaMensal =
+			AVERAGEX( ALLSELECTED(dCalendario[Ano], dCalendario[Mês Abrev.], dCalendario[Mês]), [Total Vendido] )
+			VAR vMediaDiario =
+			AVERAGEX( ALLSELECTED(dCalendario), [Total Vendido] )
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    ISINSCOPE(dCalendario[Dia]) && [Total Vendido] >= vMediaDiario, "blue",
+			    NOT(ISINSCOPE(dCalendario[Dia])) && [Total Vendido] >= vMediaMensal, "red"
+			)
+		lineageTag: d146cacb-de66-4d70-8bd2-86af3fba7eee
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'Valor de Referência' = [Parâmetro Valor] * 2000000
+		lineageTag: c722afde-f261-4a63-b07a-15392f03ccb5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Destaque Selecionado' =
+			
+			SWITCH(
+			    SELECTEDVALUE(SelecaoDestaque[id]),
+			    1, [Destacar Maior e Menor Valor],
+			    2, [Destacar Primeiro e Último Mes v2],
+			    3, [Destacar Valores Acima da Média]
+			)
+		lineageTag: 5105d6a6-50cf-41bf-857e-176fc8ae8921
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column 'Coluna 1'
+		dataType: string
+		isHidden
+		lineageTag: 6ae7952f-8c87-4cdc-aee1-7ab1e3bb1688
+		summarizeBy: none
+		sourceColumn: Coluna 1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	partition 'Medidas Tempo-afb8fe50-35fc-462c-ab93-b33d120f378a' = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Coluna 1" = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Coluna 1", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+

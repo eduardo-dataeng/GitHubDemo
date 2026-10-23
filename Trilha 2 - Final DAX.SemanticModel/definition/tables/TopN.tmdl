@@ -1,0 +1,60 @@
+table TopN
+	lineageTag: 09e4cea7-e04a-4ff7-a574-4cb4d5b54edd
+
+	measure 'TOPN Valor' = SELECTEDVALUE('TopN'[N], 5)
+		formatString: 0
+		lineageTag: 44b44c6b-d090-4928-b336-aae0b842f74e
+
+	column N
+		dataType: int64
+		formatString: 0
+		lineageTag: 611bc255-9015-4012-88eb-cd9745cec41b
+		summarizeBy: sum
+		sourceColumn: N
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TOP N'
+		dataType: string
+		lineageTag: 048a1833-ad51-450b-b3c2-8814f6852df4
+		summarizeBy: none
+		sourceColumn: TOP N
+		sortByColumn: N
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column LimInf
+		dataType: int64
+		formatString: 0
+		lineageTag: d3770e47-fa59-46c1-86be-b04d63439ff3
+		summarizeBy: sum
+		sourceColumn: LimInf
+
+		annotation SummarizationSetBy = Automatic
+
+	column LimSup
+		dataType: int64
+		formatString: 0
+		lineageTag: 059a5348-ed32-4063-a1d1-e8e4d47ba5d9
+		summarizeBy: sum
+		sourceColumn: LimSup
+
+		annotation SummarizationSetBy = Automatic
+
+	partition TopN-7d7e7924-2483-4d9b-87a8-6dc24847c347 = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlbSUQrJL1AA0YZAbKwUqxOtZAoVBdEmQGwKFjU0gAqDGWYgHQYQ5TAJMMMQZA6QFRsLAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [N = _t, #"TOP N" = _t, LimInf = _t, LimSup = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"N", Int64.Type}, {"TOP N", type text}, {"LimInf", Int64.Type}, {"LimSup", Int64.Type}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

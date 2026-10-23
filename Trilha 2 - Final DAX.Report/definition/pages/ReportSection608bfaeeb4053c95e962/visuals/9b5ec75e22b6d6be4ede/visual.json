@@ -1,0 +1,35 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "9b5ec75e22b6d6be4ede",
+  "position": {
+    "x": 38.5929648241206,
+    "y": 138.6934673366834,
+    "z": 2000,
+    "height": 86.834170854271349,
+    "width": 512.56281407035169
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Calcule o Total Vendido considerando apenas os meses com faturamento acima de 7 milhões",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

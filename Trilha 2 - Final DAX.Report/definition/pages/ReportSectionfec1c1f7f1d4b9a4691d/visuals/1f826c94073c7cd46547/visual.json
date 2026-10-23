@@ -1,0 +1,110 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "1f826c94073c7cd46547",
+  "position": {
+    "x": 103.71859296482411,
+    "y": 223.11557788944722,
+    "z": 0,
+    "height": 426.93467336683415,
+    "width": 904.5226130653266
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dCliente"
+                    }
+                  },
+                  "Property": "Estado"
+                }
+              },
+              "queryRef": "dCliente.Estado"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas Gerais"
+                    }
+                  },
+                  "Property": "Qtd Linhas Vendas"
+                }
+              },
+              "queryRef": "Medidas Gerais.Qtd Linhas Vendas"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas Gerais"
+                    }
+                  },
+                  "Property": "Qtd 2018"
+                }
+              },
+              "queryRef": "Medidas Gerais.Qtd 2018"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas Gerais"
+                    }
+                  },
+                  "Property": "Qtd Arizona"
+                }
+              },
+              "queryRef": "Medidas Gerais.Qtd Arizona"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dCliente"
+                  }
+                },
+                "Property": "Estado"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "142.29647465468355D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Medidas Gerais.Qtd Arizona"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

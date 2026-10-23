@@ -1,0 +1,62 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "c71c1b0358ed94808f1d",
+  "position": {
+    "x": 0,
+    "y": 192.964824120603,
+    "z": 1000,
+    "height": 359.3969849246231,
+    "width": 559.59798994974869
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dProduto"
+                    }
+                  },
+                  "Property": "Marca"
+                }
+              },
+              "queryRef": "dProduto.Marca"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas Gerais"
+                    }
+                  },
+                  "Property": "Ticket Médio v1"
+                }
+              },
+              "queryRef": "Medidas Gerais.Ticket Médio v1"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas Gerais"
+                    }
+                  },
+                  "Property": "Ticket Médio v2"
+                }
+              },
+              "queryRef": "Medidas Gerais.Ticket Médio v2"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

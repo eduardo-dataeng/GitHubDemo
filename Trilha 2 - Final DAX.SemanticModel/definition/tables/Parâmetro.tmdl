@@ -1,0 +1,29 @@
+table Parâmetro
+	lineageTag: df635db3-91d1-4af6-9b81-c7b1905dfc74
+
+	measure 'Parâmetro Valor' = SELECTEDVALUE('Parâmetro'[Parâmetro])
+		lineageTag: 33506ba6-f57b-4058-b3d1-9cc378f36bba
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Parâmetro
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 23f6242e-d1e8-469f-815f-85f46b3c1976
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = User
+
+	partition Parâmetro-e786d8cd-7d89-44ba-9a7e-62ed19acfd98 = calculated
+		mode: import
+		source = GENERATESERIES(0, 1, 0.05)
+
+	annotation PBI_Id = c28c1386c60044ab86fd676e14d043a9
+
