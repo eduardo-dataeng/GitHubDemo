@@ -28,7 +28,7 @@ table 'Medidas Gerais'
 			
 			DIVIDE(
 			    [Total Desconto],
-			    SUMX(fVendas, fVendas[Preço Unitário] * fVendas[Quantidade])
+			    SUMX(fVendas, fVendas[Preço Unitário] * fVendas[Quantidade]) / 10
 			    //[Total Vendido] + [Total Desconto]
 			)
 		formatString: 0.00%;-0.00%;0.00%
@@ -208,7 +208,9 @@ table 'Medidas Gerais'
 
 		changedProperty = FormatString
 
-	measure '% Contoso' = DIVIDE([Qtd Contoso], [Qtd Linhas Vendas])
+	measure '% Contoso' = ```
+			DIVIDE([Qtd Contoso], [Qtd Linhas Vendas]) * 2 
+			```
 		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: ad330d1c-7ff2-45db-946a-502b7dcc0605
 
